@@ -12,7 +12,7 @@ class NewHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gemini AI'),
+       // title: const Text(''),
         actions: [
           // Theme toggle button
           Obx(
