@@ -6,8 +6,6 @@ class GeminiController extends GetxController {
 
   final RxList<ChatMessage> messages = <ChatMessage>[].obs;
   final RxBool isTyping = false.obs;
-  final RxBool isListening = false.obs;
-  final RxString recognizedText = ''.obs;
 
   // Send message to Gemini API
   Future<void> sendMessage(String text) async {
@@ -38,16 +36,6 @@ class GeminiController extends GetxController {
   void resetChat() {
     messages.clear();
     _geminiService.resetChat();
-  }
-
-  // Update recognized text from speech recognition
-  void updateRecognizedText(String text) {
-    recognizedText.value = text;
-  }
-
-  // Set listening state
-  void setListening(bool listening) {
-    isListening.value = listening;
   }
 }
 

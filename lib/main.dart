@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'new_home.dart';
 import 'controllers/gemini_controller.dart';
-import 'controllers/speech_controller.dart';
 import 'controllers/theme_controller.dart';
 
 void main() {
@@ -30,7 +29,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize controllers
     Get.put(GeminiController());
-    Get.put(SpeechController());
     Get.put(ThemeController());
 
     final ThemeController themeController = Get.find();

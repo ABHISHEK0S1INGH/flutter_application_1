@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 import 'controllers/gemini_controller.dart';
-import 'controllers/speech_controller.dart';
 import 'controllers/theme_controller.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -14,7 +12,6 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get controller instances using GetX dependency injection
     final GeminiController geminiController = Get.find<GeminiController>();
-    final SpeechController speechController = Get.find<SpeechController>();
     final ThemeController themeController = Get.find<ThemeController>();
     final TextEditingController textController = TextEditingController();
     final FocusNode focusNode = FocusNode();
@@ -76,7 +73,6 @@ class ChatScreen extends StatelessWidget {
             textController,
             focusNode,
             geminiController,
-            speechController,
           ),
         ],
       ),
@@ -195,7 +191,6 @@ class ChatScreen extends StatelessWidget {
     TextEditingController textController,
     FocusNode focusNode,
     GeminiController geminiController,
-    SpeechController speechController,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -212,55 +207,32 @@ class ChatScreen extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Obx(
-              () => TextField(
-                controller: textController,
-                focusNode: focusNode,
-                decoration: InputDecoration(
-                  hintText:
-                      speechController.isListening.value
-                          ? 'Listening...'
-                          : 'Message Gemini...',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor:
-                      Theme.of(context).colorScheme.surfaceContainerHighest,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 10.0,
-                  ),
-                  suffixIcon: Obx(
-                    () => IconButton(
-                      icon: Icon(
-                        speechController.isListening.value
-                            ? Icons.mic
-                            : Icons.mic_none,
-                        color:
-                            speechController.isListening.value
-                                ? Theme.of(context).colorScheme.primary
-                                : null,
-                      ),
-                      onPressed:
-                          () => _handleVoiceInput(
-                            context,
-                            textController,
-                            geminiController,
-                            speechController,
-                          ),
-                    ),
-                  ),
+            child: TextField(
+              controller: textController,
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                hintText: 'Message Gemini...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24.0),
+                  borderSide: BorderSide.none,
                 ),
-                onSubmitted: (text) {
+                filled: true,
+                fillColor:
+                    Theme.of(context).colorScheme.surfaceContainerHighest,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 10.0,
+                ),
+              ),
+              onSubmitted: (text) {
+                if (text.trim().isNotEmpty) {
                   geminiController.sendMessage(text);
                   textController.clear();
                   focusNode.requestFocus();
-                },
-                maxLines: null,
-                textCapitalization: TextCapitalization.sentences,
-              ),
+                }
+              },
+              maxLines: null,
+              textCapitalization: TextCapitalization.sentences,
             ),
           ),
           const SizedBox(width: 8),
@@ -278,145 +250,6 @@ class ChatScreen extends StatelessWidget {
             child: const Icon(Icons.send, color: Colors.white),
           ),
         ],
-      ),
-    );
-  }
-
-  void _handleVoiceInput(
-    BuildContext context,
-    TextEditingController textController,
-    GeminiController geminiController,
-    SpeechController speechController,
-  ) async {
-    bool success = await speechController.toggleListening();
-
-    if (success && speechController.isListening.value) {
-      _showVoiceInputDialog(
-        context,
-        textController,
-        geminiController,
-        speechController,
-      );
-    }
-  }
-
-  void _showVoiceInputDialog(
-    BuildContext context,
-    TextEditingController textController,
-    GeminiController geminiController,
-    SpeechController speechController,
-  ) {
-    Get.dialog(
-      barrierDismissible: false,
-      Obx(
-        () => AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          content: Container(
-            width: 300,
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AvatarGlow(
-                  animate: speechController.isListening.value,
-                  glowColor: Theme.of(context).colorScheme.primary,
-                  glowRadiusFactor: 0.7,
-                  duration: const Duration(milliseconds: 2000),
-                  repeat: true,
-                  child: CircleAvatar(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    radius: 40,
-                    child: Icon(
-                      speechController.isListening.value
-                          ? Icons.mic
-                          : Icons.mic_none,
-                      size: 36,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  speechController.isListening.value
-                      ? 'Listening...'
-                      : 'Voice input paused',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  height: 100,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Text(
-                      speechController.recognizedText.value.isEmpty
-                          ? 'Say something...'
-                          : speechController.recognizedText.value,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color:
-                            speechController.recognizedText.value.isEmpty
-                                ? Theme.of(context).hintColor
-                                : Theme.of(context).textTheme.bodyLarge?.color,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton.icon(
-                      onPressed: () => speechController.clearRecognizedText(),
-                      icon: const Icon(Icons.clear),
-                      label: const Text('Clear'),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () async {
-                        if (speechController.isListening.value) {
-                          await speechController.stopListening();
-                        } else {
-                          Get.back(); // Close dialog
-                          if (speechController
-                              .recognizedText
-                              .value
-                              .isNotEmpty) {
-                            textController.text =
-                                speechController.recognizedText.value;
-                            geminiController.sendMessage(
-                              speechController.recognizedText.value,
-                            );
-                            speechController.clearRecognizedText();
-                          }
-                        }
-                      },
-                      icon: Icon(
-                        speechController.isListening.value
-                            ? Icons.stop
-                            : Icons.send,
-                      ),
-                      label: Text(
-                        speechController.isListening.value ? 'Stop' : 'Send',
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
