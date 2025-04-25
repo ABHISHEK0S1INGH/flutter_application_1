@@ -1,16 +1,46 @@
-# flutter_application_1
+# 💬 Gemini Chat App with Flutter
 
-A new Flutter project.
+A beautiful and functional Flutter application that integrates the Gemini API for AI-powered conversations. This app features a sleek user interface, light/dark mode support, and seamless state management using the GetX package.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Features
 
-A few resources to get you started if this is your first Flutter project:
+- 🔮 Chat with Gemini (Google's Generative AI)
+- 🌗 Light and Dark Theme support
+- 🎯 Clean UI with modern design
+- ⚙️ GetX for state management and routing
+- 💾 Persistent chat data using Shared Preferences
+- 🧩 Markdown support in chat responses
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📸 Screenshots
+
+| Light Mode | Dark Mode |
+|------------|-----------|
+| ![light](assets/screenshots/light.png) | ![dark](assets/screenshots/dark.png) |
+
+---
+
+## 🧰 Packages Used
+
+| Package | Description |
+|--------|-------------|
+| [`google_generative_ai`](https://pub.dev/packages/google_generative_ai) | Gemini API integration |
+| [`http`](https://pub.dev/packages/http) | API communication |
+| [`flutter_markdown`](https://pub.dev/packages/flutter_markdown) | Markdown rendering |
+| [`get`](https://pub.dev/packages/get) | State management and navigation |
+| [`shared_preferences`](https://pub.dev/packages/shared_preferences) | Persistent local storage |
+| [`cupertino_icons`](https://pub.dev/packages/cupertino_icons) | iOS-style icons |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/gemini-chat-flutter.git
+cd gemini-chat-flutter
+flutter pub get
