@@ -19,7 +19,22 @@ A beautiful and functional Flutter application that integrates the Gemini API fo
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| ![light](Assets/Screenshot_20250425_210231.png) | ![dark](Assets/Screenshot_20250425_210225.png) | ![Light](Assets/Screenshot_20250425_210235.png) |  ![dark](Assets/Screenshot_20250425_210237.png) |  ![Light](Assets/Screenshot_20250425_210309.png) |  ![dark](Assets/Screenshot_20250425_210306.png) |
+| ![light](Assets/Screenshot_20250425_210231.png) | ![dark](Assets/Screenshot_20250425_210225.png) |
+
+### 🌞 Light Mode
+
+| Screenshot 1 | Screenshot 2 |
+|--------------|--------------|
+| ![Light 1](Assets/Screenshot_20250425_210235.png) | ![Light 2](Assets/Screenshot_20250425_210309.png) |
+
+### 🌙 Dark Mode
+
+| Screenshot 1 | Screenshot 2 |
+|--------------|--------------|
+| ![Dark 1](Assets/Screenshot_20250425_210237.png) | ![Dark 2](Assets/Screenshot_20250425_210306.png) |
+
+---
+
 
 ---
 
